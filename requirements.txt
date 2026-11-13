@@ -1,0 +1,41 @@
+# QuickLoan — exact versions used to train, test and export every artifact in this folder.
+# Python 3.13, 64-bit. Artifacts built on 3.13.18 (a source-only release); Windows users install 3.13.17, the last
+# 3.13 release with Windows installers, which was tested with these exact pins (README "Installation", Route A).
+# Every pin below has Windows, macOS and Linux wheels for Python 3.13.
+#
+# Saved scikit-learn / XGBoost / pandas objects only load reliably in the versions that created them, so these
+# are pinned exactly. Install into a fresh virtual environment:
+#     py -3.13 -m venv .venv          (macOS/Linux: python3.13 -m venv .venv)
+#     .venv\Scripts\activate          (macOS/Linux: source .venv/bin/activate)
+#     python -m pip install --upgrade pip
+#     pip install -r requirements.txt
+#     python -m pip check
+# With different versions, the dashboard shows a warning; `python train_models.py` rebuilds every artifact.
+
+# Core modelling
+pandas==3.0.5
+numpy==2.5.3
+scipy==1.18.1           # scikit-learn's numerical backend, pinned for identical results
+scikit-learn==1.9.1
+xgboost==3.4.1
+joblib==1.6.0
+cloudpickle==3.1.2      # self-contained model artifacts (also a joblib dependency)
+shap==0.54.1            # exact Tree SHAP reason codes
+pyarrow==26.0.0         # REQUIRED: pandas 3 stores text columns as Arrow strings when pyarrow is present, and
+                        # artifacts/evaluation_results.joblib contains such DataFrames (it cannot be unpickled
+                        # without pyarrow). Streamlit also needs it to render every table (st.dataframe).
+
+# Dashboard
+streamlit==1.66.1
+plotly==7.1.0
+
+# Notebook
+matplotlib==3.11.2
+ipython==9.18.0         # imported directly by the notebook (IPython.display)
+ipykernel==7.4.0
+nbformat==5.11.1
+nbclient==0.11.0
+nbconvert==7.17.2       # `jupyter nbconvert --execute` re-runs the notebook
+
+# Tests
+pytest==9.1.1
